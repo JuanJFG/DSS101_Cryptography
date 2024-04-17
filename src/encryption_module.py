@@ -3,21 +3,19 @@ import string
 from sympy import primerange
 
 def generate_large_prime():
-    """Generates a large prime number within a specified range for key generation."""
+    """Genera un número primo grande dentro de un rango especificado para la generación de claves."""
     primes = list(primerange(1000000, 2000000))
     return random.choice(primes)
 
 def generate_key(seed, prime, size=64):
     """
-    Generates a cryptographic key of 64 bits using a seed and a prime number.
-
+    Genera una clave criptográfica de 64 bits utilizando una semilla y un número primo.
     Args:
-    seed: The seed used for the random number generator.
-    prime: A large prime number for key calculation.
-    size: The bit size of the key, default is 64 bits.
-
-    Returns:
-    An integer representing the cryptographic key.
+    Semilla: La semilla utilizada para el generador de números aleatorios.
+    primo: Un número primo grande para el cálculo de la clave.
+    tamaño: El tamaño en bits de la clave, por defecto es 64 bits.
+    Devuelve:
+    Un entero que representa la clave criptográfica.
     """
     random.seed(seed)
     key = random.getrandbits(size)
@@ -26,30 +24,26 @@ def generate_key(seed, prime, size=64):
 
 def encrypt_message(message, key):
     """
-    Encrypts a message using a simple XOR operation for demonstration purposes.
-
+    Cifra un mensaje utilizando una simple operación XOR con fines de demostración.
     Args:
-    message: The message to encrypt (string).
-    key: The cryptographic key (integer).
-
-    Returns:
-    The encrypted message as a string containing only alphanumeric and special characters.
+    Mensaje: El mensaje a cifrar (cadena).
+    clave: La clave criptográfica (entero).
+    Devuelve:
+    El mensaje cifrado como una cadena que contiene todos los caracteres ASCII imprimibles.
     """
     key %= 256  # Ensure key is within range (0-255) for XOR operation
-    valid_chars = string.ascii_letters + string.digits + string.punctuation + " "  # Alphanumeric, punctuation, and space
+    valid_chars = string.printable
     encrypted_message = ''.join(char for char in ''.join(chr(ord(char) ^ key) for char in message) if char in valid_chars)
     return encrypted_message
 
 def decrypt_message(encrypted_message, key):
     """
-    Decrypts a message using a simple XOR operation.
-
+    Descifra un mensaje mediante una simple operación XOR.
     Args:
-    encrypted_message: The encrypted message (string).
-    key: The cryptographic key used for encryption (integer).
-
-    Returns:
-    The decrypted message as a string.
+    mensaje_encriptado: El mensaje cifrado (cadena).
+    clave: La clave criptográfica utilizada para el cifrado (entero).
+    Devuelve:
+    El mensaje descifrado como cadena.
     """
     key %= 256  # Ensure key is within range (0-255) for XOR operation
     decrypted_message = ''.join(chr(ord(char) ^ key) for char in encrypted_message)
