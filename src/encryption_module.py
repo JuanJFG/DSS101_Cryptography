@@ -1,4 +1,5 @@
 import random
+import string
 from sympy import primerange
 
 def generate_large_prime():
@@ -32,10 +33,12 @@ def encrypt_message(message, key):
     key: The cryptographic key (integer).
 
     Returns:
-    The encrypted message as a string.
+    The encrypted message as a string containing only alphanumeric and special characters.
     """
     key %= 256  # Ensure key is within range (0-255) for XOR operation
-    return ''.join(chr(ord(char) ^ key) for char in message)
+    valid_chars = string.ascii_letters + string.digits + string.punctuation + " "  # Alphanumeric, punctuation, and space
+    encrypted_message = ''.join(char for char in ''.join(chr(ord(char) ^ key) for char in message) if char in valid_chars)
+    return encrypted_message
 
 def decrypt_message(encrypted_message, key):
     """
@@ -49,4 +52,5 @@ def decrypt_message(encrypted_message, key):
     The decrypted message as a string.
     """
     key %= 256  # Ensure key is within range (0-255) for XOR operation
-    return ''.join(chr(ord(char) ^ key) for char in encrypted_message)
+    decrypted_message = ''.join(chr(ord(char) ^ key) for char in encrypted_message)
+    return decrypted_message

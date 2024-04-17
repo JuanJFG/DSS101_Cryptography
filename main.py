@@ -1,12 +1,12 @@
-from src.encryption_module import generate_key, encrypt_message, decrypt_message, generate_large_prime
+from src.encryption_module import generate_large_prime, generate_key, encrypt_message, decrypt_message
 from src.message_types import FirstContactMessage, RegularMessage, KeyUpdateMessage, LastContactMessage
-import random
 
 def get_user_input():
-    """Gets user input for message and message type."""
+    """Gets user input for message, message type, and filename."""
     user_message = input("Introduce tu mensaje:\n")
     message_type = input("Introduce el tipo de mensaje (FCM, RM, KUM, LCM):\n")
-    return user_message, message_type
+    filename = input("Introduce el nombre del archivo para guardar el mensaje cifrado:\n")
+    return user_message, message_type, filename
 
 def main():
     """Main function to handle user interaction."""
@@ -20,7 +20,7 @@ def main():
         seed = 42  # Semilla fija de ejemplo para demostración
         key = generate_key(seed, prime)
 
-        user_message, message_type = get_user_input()
+        user_message, message_type, filename = get_user_input()
         
         if message_type == "FCM":
             msg = FirstContactMessage(user_message, message_type)
@@ -40,7 +40,7 @@ def main():
         encrypted_message = encrypt_message(msg.data, key)
         print(f"Dato cifrado: {encrypted_message}")
 
-        with open("mensaje_cifrado.txt", "w", encoding="utf-8") as file:
+        with open(filename, "w", encoding="utf-8") as file:
             file.write(f"Mensaje cifrado: {encrypted_message}\n")
             file.write(f"Clave: {key}\n")
 
